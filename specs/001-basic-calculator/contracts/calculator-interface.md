@@ -145,7 +145,7 @@ formatResult(1/0)                    // → "Infinity"
 **Validation Rules**:
 - Trim whitespace
 - Must parse as a valid number (integers, decimals, negatives)
-- Reject scientific notation (or accept per task decision)
+- Reject scientific notation, hexadecimal/binary forms and a leading "+"; treat the minus sign "−" as "-"
 - Reject empty strings, non-numeric characters
 - Accept leading/trailing whitespace (strip and retry)
 
@@ -158,6 +158,28 @@ validateInput("  5.5  ")        // → { valid: true, value: 5.5 }
 validateInput("abc")            // → { valid: false, error: "Invalid number" }
 validateInput("")               // → { valid: false, error: "Please enter a number" }
 ```
+
+---
+
+### Function: `calculate(rawA: string, operation: string, rawB: string)`
+
+**Purpose**: Validate the three form values and compute the formatted result in one call.
+
+**Output**: `{ ok: true, formatted: string }` or `{ ok: false, error: { type, message, guidance } }`, with `type` and messages as in [data-model.md](../data-model.md) (including its precedence order). `operation` is one of `+`, `−`, `×`, `÷`.
+
+**Example**:
+```javascript
+calculate("5", "+", "3")     // → { ok: true, formatted: "8" }
+calculate("5", "÷", "0")     // → { ok: false, error: { type: "DIVISION_BY_ZERO", ... } }
+```
+
+---
+
+### Function: `initialState()`
+
+**Purpose**: Return the empty calculator state used by Clear.
+
+**Output**: `{ operand1: "", operand2: "", operation: "", result: null, error: null }`
 
 ---
 
@@ -251,6 +273,7 @@ User clicks clear
 | User clicks submit without selecting operation | "Please select an operation" | Choose +, −, ×, or ÷ |
 | User enters "5" and "0" with ÷ operation | "Cannot divide by zero" | Change operand2 or choose different operation |
 | User clicks submit with no inputs | "Nothing to calculate" | Enter two numbers and select an operation |
+| Result is too large to represent | "Result is too large" | Use smaller numbers |
 
 ---
 

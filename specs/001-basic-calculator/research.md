@@ -4,7 +4,7 @@
 
 ## Summary
 
-All technical unknowns resolved. Feature uses vanilla HTML/CSS/JS with no external dependencies, deployed as static site to Netlify. Testing approach deferred to tasks phase (decision pending: unit tests with Jest vs. manual browser testing vs. both).
+All technical unknowns resolved. Feature uses vanilla HTML/CSS/JS with no external dependencies, deployed as static site to Netlify. Testing approach resolved in the tasks phase: `node:test` unit tests for the engine plus manual browser checks.
 
 ---
 
@@ -31,7 +31,7 @@ All technical unknowns resolved. Feature uses vanilla HTML/CSS/JS with no extern
 
 ### 2. Testing Framework
 
-**Decision**: **DEFERRED** (to tasks phase)
+**Decision**: Node's built-in test runner (`node:test`, Node 18+), resolved in the tasks phase. No dependencies; run with `npm test`. UI is checked by hand in a browser.
 
 **Options Under Consideration**:
 - **Option A**: Jest + vanilla JS unit tests (recommended by Raipur Constitution's Testability principle)

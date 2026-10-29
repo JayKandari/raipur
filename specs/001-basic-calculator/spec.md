@@ -6,6 +6,16 @@ A simple web application that performs basic arithmetic operations (addition, su
 
 **Purpose**: Deliver a functional single-page calculator application with emphasis on correctness and simplicity, serving as a foundation for incremental feature expansion.
 
+## Clarifications
+
+### Session 2026-10-29
+
+- Q: Are linting and type checking required before commit? → A: Deferred; not required for now (user decision).
+- Q: Is multi-screen-size smoke testing required? → A: No. It only needs to work on a normal wide desktop screen and any basic phone screen, with no specific device testing (user decision).
+- Q: What shows when an operand is empty? → A: "Please enter both numbers" (default accepted when implementation started).
+- Q: Are trailing zeros shown in results? → A: No; 2.5 + 1.5 shows "4" (default accepted when implementation started).
+- Q: How are very large numbers handled? → A: Chosen during implementation, revisit if unwanted: an operand too long to represent is an invalid number, and a result too large to represent shows "Result is too large".
+
 ## User Scenarios & Testing
 
 ### User Story 1: Perform Basic Arithmetic Operations (Priority: P1)
@@ -16,7 +26,7 @@ A simple web application that performs basic arithmetic operations (addition, su
 
 **Acceptance Criteria**:
 - All four operations (+, −, ×, ÷) produce mathematically correct results
-- Results display with appropriate precision (e.g., 0.1 + 0.2 = 0.3, not 0.30000000000000004)
+- Results display at most 10 decimal places with no trailing zeros (e.g., 0.1 + 0.2 = 0.3, not 0.30000000000000004; 2.5 + 1.5 = 4)
 - Non-numeric inputs are rejected with a user-friendly error message
 - Division by zero returns a clear error message instead of crashing
 
@@ -26,7 +36,7 @@ A simple web application that performs basic arithmetic operations (addition, su
 - Multiply: 6 × 7 = 42
 - Divide: 20 ÷ 4 = 5
 - Division by zero: 5 ÷ 0 → error message
-- Decimal operations: 2.5 + 1.5 = 4.0
+- Decimal operations: 2.5 + 1.5 = 4 (trailing zeros are not shown)
 - Invalid input: entering "abc" in a number field → error message
 
 ### User Story 2: Clear and Recalculate (Priority: P2)
@@ -44,10 +54,10 @@ A simple web application that performs basic arithmetic operations (addition, su
 
 ### Edge Cases
 
-- **Negative numbers**: Entering −5 + −3 should equal −8
-- **Large numbers**: Operations on numbers with many digits (e.g., 999999 + 1)
+- **Negative numbers**: Entering −5 + −3 should equal −8 (both the hyphen "-" and the minus sign "−" are accepted)
+- **Large numbers**: Operations on numbers with many digits (e.g., 999999 + 1) work normally; an operand too long to represent is rejected as an invalid number; a result too large to represent shows "Result is too large"; large results are written in full digits, never scientific notation
 - **Floating-point precision**: 0.1 + 0.2 should display as 0.3, not 0.30000000000000004
-- **Empty inputs**: Submitting without entering numbers → error message
+- **Empty inputs**: An empty operand → "Please enter both numbers"; submitting with nothing entered and no operation → "Nothing to calculate"
 - **Leading zeros**: 007 should be treated as 7
 - **Whitespace**: Spaces before/after numbers should be trimmed
 
@@ -61,7 +71,9 @@ A simple web application that performs basic arithmetic operations (addition, su
 6. **Error Handling**:
    - Non-numeric input rejection with inline error message
    - Division by zero handled gracefully with user-facing message
-   - Missing inputs handled with prompt to enter required values
+   - Missing inputs handled with prompt to enter required values ("Please enter both numbers")
+   - Results too large to represent show "Result is too large"
+7. **Input Format**: An operand is optional whitespace, an optional leading "-" or "−", then digits with at most one decimal point. Scientific notation (1e3), hexadecimal or binary forms (0x10), and a leading "+" are rejected as invalid numbers. Leading zeros are allowed (007 is 7)
 
 ## Success Criteria
 
@@ -69,20 +81,20 @@ A simple web application that performs basic arithmetic operations (addition, su
 2. **Usability**: User can complete a calculation (enter two numbers, select operation, submit) in under 5 seconds
 3. **Reliability**: Calculator does not crash on edge cases (division by zero, invalid input, empty fields)
 4. **Performance**: Results display instantly (under 100ms) after button click
-5. **Accessibility**: Error messages clearly indicate what went wrong and how to fix it
+5. **Accessibility**: Error messages state what went wrong and how to fix it; results and errors are announced to assistive technology; every input has a visible label; buttons and inputs are at least 44px tall
 
 ## Key Entities
 
 - **Operand**: A numeric value input by the user (integer or decimal, positive or negative)
 - **Operation**: One of four arithmetic operations (+, −, ×, ÷)
-- **Result**: The calculated outcome, displayed with appropriate precision
+- **Result**: The calculated outcome, shown with at most 10 decimal places and no trailing zeros
 - **Error**: Message indicating invalid input or operation failure
 
 ## Assumptions
 
 - Users will input valid numeric formats (no special characters except minus sign and decimal point)
-- Mobile and desktop browsers are both supported (responsive design)
-- Decimal precision: JavaScript default floating-point behavior is acceptable; users understand standard limitations
+- The page works on a normal wide desktop screen and any basic phone screen; no specific device or screen-size testing is required
+- Arithmetic uses standard floating-point; displayed results are rounded to 10 decimal places
 - No user accounts or data persistence required for this MVP
 - Operations are standard arithmetic (no advanced functions like exponents, logarithms)
 - The user's learning goal (AI fundamentals) is external to this application and requires no in-app visibility

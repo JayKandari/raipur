@@ -22,7 +22,7 @@ Calculator app operates on simple numeric values and produces results. No persis
 
 **Validation Rules**:
 - Must be a valid number (integers, decimals, negatives accepted)
-- Special cases: Infinity → reject; NaN → reject; scientific notation → reject or accept per decision in tasks phase
+- Special cases: Infinity → reject; NaN → reject; scientific notation (1e3), hexadecimal/binary (0x10) and a leading "+" → reject; the minus sign "−" is treated as "-"
 - Empty input → error state (user must enter value)
 - Whitespace → trim before parsing
 
@@ -131,6 +131,9 @@ Calculator app operates on simple numeric values and produces results. No persis
 | `MISSING_OPERAND` | "Please enter both numbers" | "Fill both input fields before clicking submit" |
 | `MISSING_OPERATION` | "Please select an operation" | "Choose +, −, ×, or ÷" |
 | `EMPTY_SUBMIT` | "Nothing to calculate" | "Enter two numbers and select an operation" |
+| `OUT_OF_RANGE` | "Result is too large" | "Use smaller numbers" |
+
+**Precedence** (first match wins): both operands empty and no operation → `EMPTY_SUBMIT`; operand 1 empty → `MISSING_OPERAND`; operand 1 not a number → `INVALID_INPUT`; no operation → `MISSING_OPERATION`; operand 2 empty → `MISSING_OPERAND`; operand 2 not a number → `INVALID_INPUT`; division by zero → `DIVISION_BY_ZERO`; non-finite result → `OUT_OF_RANGE`.
 
 **Lifecycle**:
 1. User action triggers validation → if failure, create Error

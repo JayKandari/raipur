@@ -13,7 +13,7 @@ This guide provides step-by-step instructions to set up, run, and validate the c
 - Text editor (VS Code, Sublime, or any editor)
 - Web browser (Chrome, Firefox, Safari, or Edge)
 - Git (for version control)
-- Python 3 or Node.js (for local HTTP server; optional but recommended)
+- Node.js 18+ (tests) and Python 3 (local HTTP server via `npm start`)
 - Netlify CLI (optional, for advanced deployment; not needed for basic push workflow)
 
 ---
@@ -162,7 +162,7 @@ http://localhost:8000
 3. Select "+" from operation dropdown
 4. Click Submit
 
-**Expected Result**: Results area displays "4" (or "4.0")
+**Expected Result**: Results area displays "4"
 
 **Pass/Fail**: ☐ Pass ☐ Fail
 
@@ -272,9 +272,9 @@ http://localhost:8000
 
 **Setup**: Page loaded
 
-**Test Steps** (resize browser to mobile width):
-1. Open Developer Tools (F12 → Device Toolbar)
-2. Select mobile device preset (iPhone 12 or similar)
+**Test Steps** (one normal desktop width, one basic phone width; no specific device needed):
+1. Open the page at a normal wide desktop window size and confirm it looks usable
+2. Narrow the window to about 360px wide (or open on any phone)
 3. Perform Scenario 1 (5 + 3)
 
 **Expected Result**: 
@@ -289,7 +289,7 @@ http://localhost:8000
 
 ## Running Unit Tests (if implemented)
 
-**Prerequisites**: Jest or testing framework installed (task phase decision)
+**Prerequisites**: Node.js 18+ (uses the built-in `node:test` runner; no install step)
 
 ```bash
 npm test
@@ -297,7 +297,7 @@ npm test
 npm run test:unit
 ```
 
-**Expected**: All tests pass (example):
+**Expected**: All tests pass and the summary shows `# fail 0` (the listing below is only an illustration; the real output is the Node test runner's report):
 ```
 PASS  tests/calculator.test.js
   ✓ add(5, 3) equals 8

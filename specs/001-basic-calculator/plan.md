@@ -16,7 +16,7 @@ Single-page calculator app (HTML/CSS/JS) performing four basic arithmetic operat
 
 **Storage**: N/A (no persistence in MVP; future enhancement can use localStorage)
 
-**Testing**: Unit tests (vanilla JS or Jest) for calculation logic; manual browser testing for UI
+**Testing**: Node's built-in test runner (`node:test`, Node 18+, no dependencies) for the calculation engine via `npm test`; the UI is checked by hand in a browser on a normal desktop width and a basic phone width, with no specific device testing
 
 **Target Platform**: Web browsers (desktop + mobile, responsive)
 
@@ -38,6 +38,8 @@ Single-page calculator app (HTML/CSS/JS) performing four basic arithmetic operat
 - **Testability**: Core math functions decoupled from DOM; unit tests can run without browser
 - **Incremental Enhancement**: Modular structure allows adding operations/features without restructuring core logic
 
+**Deviations from constitution Development Standards (user decision, 2026-10-29)**: linting and type checking are deferred, and multi-screen-size smoke testing is not required. See Complexity Tracking.
+
 ## Project Structure
 
 ### Documentation (this feature)
@@ -58,11 +60,23 @@ specs/001-basic-calculator/
 ```text
 .
 ├── index.html           # Main entry point (markup + layout)
-├── styles.css           # Styling (responsive design)
-├── calculator.js        # Core calculation logic (vanilla JS)
+├── styles.css           # Styling (mobile-first, one breakpoint)
+├── calculator.js        # Calculation engine (pure functions, DOM-free, works in browser and Node)
+├── app.js               # DOM wiring (submit and clear handlers)
 ├── tests/
-│   └── calculator.test.js   # Unit tests for calculation engine
+│   └── calculator.test.js   # Unit tests for the engine (node:test)
+├── package.json         # npm scripts only (start, test); no dependencies
+├── .gitignore
 └── README.md            # Deployment & local testing instructions
 ```
 
-**Structure Decision**: Single static HTML/CSS/JS app (no bundler, no framework). All calculation logic in `calculator.js` as pure functions, separately testable. UI in `index.html` minimal; styling in `styles.css` (mobile-first responsive). Tests use vanilla JS assertions or Jest (defer test framework choice to tasks phase).
+**Structure Decision**: Single static HTML/CSS/JS app (no bundler, no framework). All calculation logic in `calculator.js` as pure functions, separately testable. DOM wiring lives in `app.js` so the engine stays testable without a browser. UI in `index.html` minimal; styling in `styles.css` (mobile-first responsive). Tests use `node:test` (decided in the tasks phase).
+
+**Open item**: Netlify serves the repo root as-is, so `specs/`, `.specify/`, `.claude/` and `tests/` are published too unless a separate publish directory (for example `public/`) is set. Not changed yet; needs a decision.
+
+## Complexity Tracking
+
+| Deviation | Why Needed | Standard Kept Instead Because |
+|-----------|------------|-------------------------------|
+| Lint and type checking deferred | User decision for a small toy app | Constitution Development Standards still say they are required; amend the constitution or add them later |
+| No multi-screen-size smoke test | User only needs a normal wide desktop and any basic phone | Constitution asks for mobile, tablet and desktop smoke tests; replaced by one desktop-width and one phone-width check |
