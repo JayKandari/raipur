@@ -1,50 +1,46 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- SYNC IMPACT REPORT
+Version: 0.0.0 → 1.0.0 (MINOR: Initial constitution for new project)
+New Principles: I. Simplicity, II. Correctness, III. Testability, IV. Incremental Enhancement
+Added Sections: Development Standards
+Ratified: 2026-10-29 | Last Amended: 2026-10-29
+-->
+
+# Raipur Constitution
+
+A toy math calculator app governed by simplicity, accuracy, and incremental growth.
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Simplicity
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Start minimal, add features incrementally. Each component should have one clear purpose. Avoid over-engineering; complexity must be justified by concrete user requirements.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**: Raipur begins with basic math operations. This principle ensures the codebase stays maintainable as new features are added later without accumulating unnecessary abstractions upfront.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Correctness
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+Mathematical operations must produce accurate results. All calculations must be verified against expected outcomes; edge cases (division by zero, invalid inputs) must be handled explicitly.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**: A calculator's primary function is correctness. Every operation is testable and verifiable, building user trust.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Testability
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Core calculation logic must be independently testable and decoupled from UI concerns. Test coverage must prioritize calculation accuracy over cosmetic features.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**: Separating logic from UI enables confident refactoring and feature expansion without regression risk.
+
+### IV. Incremental Enhancement
+
+New features and UI refinements follow existing patterns established in the initial interface. Breaking changes to the calculation API require consensus and migration guidance.
+
+**Rationale**: As "more things will be added," adhering to established conventions keeps the codebase predictable and reviewable.
+
+## Development Standards
+
+Code must pass linting and type checking before review. Tests must pass locally before submission to CI. UI changes must be smoke-tested in multiple screen sizes (mobile, tablet, desktop).
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Amendments to this constitution require written justification and must preserve the four core principles. The versioning scheme follows SemVer: MAJOR for principle removals/redefinitions, MINOR for new principles or feature categories, PATCH for clarifications.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-10-29
